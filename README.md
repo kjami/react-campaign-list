@@ -8,9 +8,9 @@
             <li><b>id</b>: A number, preferably unique</li>
             <li><b>name</b>: Campaign name</li>
             <li><b>startDate</b>: Start date of the campaign in M/D/YYYY format. Example: 10/26/2019.</li>
-            <li><b>endDate</b>: End date of the campaign in M/D/YYYY format. endDate should be greater than startDate.</li>
+            <li><b>endDate</b>: End date of the campaign in M/D/YYYY format. <b>endDate should be greater than startDate.</b></li>
             <li><b>Budget</b>: Budget for the campaign.</li>
-            fields. .
+            <li>If the campaigns parameter is not an array or some of the campaigns are not valid, they are not added to the existing campaigns. User will be notifed using logs.</li>
         </ul>
     </li>
     <li>User can filter the campaigns data by selecting a range for the start and end dates using the date picker.</li>
