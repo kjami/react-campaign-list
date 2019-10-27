@@ -52,3 +52,15 @@
     padding: 0!important;
     height: 1.75em;
 }
+
+.FilterBar .search-icon {
+    padding: 0.1em 0.5em;
+    background: #17a2b8;
+    height: 1.75em;
+    color: white;
+    vertical-align: middle;
+}
+
+.FilterBar .input-name {
+    border-radius: 0;
+}

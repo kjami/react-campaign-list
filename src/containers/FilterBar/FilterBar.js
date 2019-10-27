@@ -90,12 +90,19 @@ class FilterBar extends Component {
                             }} />
                     </div>
                     <div id="search-term" className="col col-12 col-sm-3 col-md-5 field">
-                        <input 
-                            className="form-control" 
-                            placeholder="Search campaign name" 
-                            type="text" 
-                            value={this.props.searchTerm || ''} 
-                            onChange={this.changeSearchTermHandler} />
+                        <div className="display-flex flex-wrapper">
+                            <div className="flex-dynamic">
+                                <input
+                                    className="form-control input-name"
+                                    placeholder="Search campaign name"
+                                    type="text"
+                                    value={this.props.searchTerm || ''}
+                                    onChange={this.changeSearchTermHandler} />
+                            </div>
+                            <div className="flex-fixed search-icon">
+                                <i className="fa fa-search"></i>
+                            </div>
+                        </div>                        
                     </div>
                     <div className="col col-12 col-sm-2 col-md-2 field">
                         <button 

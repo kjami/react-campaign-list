@@ -48,8 +48,18 @@
 
 .Campaigns .table th {
     cursor: pointer;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.Campaigns .table td {
+    cursor: default;
 }
 
 .Campaigns .campaign-active {
     min-width: 100px;
+}
+
+.Campaigns .campaign:hover {
+    background: #0011a9;
+    color: #ccc !important;
 }

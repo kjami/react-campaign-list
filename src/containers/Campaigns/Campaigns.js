@@ -16,7 +16,7 @@ const filterCampaigns = ({ campaigns, startDate: startDateRange, endDate: endDat
         let filtered = false;
 
         //Check if search term is available. If available, check if search term is present inside the campaign name (in case insensitive way)
-        if (searchTerm && !name.trim().toLowerCase().includes(searchTerm)) {
+        if (searchTerm && !name.trim().toLowerCase().includes(searchTerm.toLowerCase())) {
             filtered = true;
         }
         const startDateMoment = moment(startDate, InputDateFormat);
