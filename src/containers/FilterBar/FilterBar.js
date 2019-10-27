@@ -10,7 +10,7 @@ import * as actions from '../../store/actions';
 import './FilterBar.css';
 
 //Component that displays the start date, end date and campaign search filters
-class FilterBar extends Component {
+export class FilterBar extends Component {
 
     //items that are not required to store in global store
     state = {

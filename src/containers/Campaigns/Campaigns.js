@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import * as humanReader from 'human-number';
+import humanReader from 'human-number';
 import { InputDateFormat, OutputDateFormat } from '../../settings';
 import * as actions from '../../store/actions';
 import { filterCampaigns, isCampaignActive, sortCampaigns } from '../../utils/campaigns';
@@ -39,7 +39,7 @@ const getCampaignElems = (campaigns) => {
 }
 
 //Component that lists all campaigns
-class Campaigns extends Component {
+export class Campaigns extends Component {
 
     //Event handler when headers are clicked
     changeSortByHandler = (sortBy) => {
