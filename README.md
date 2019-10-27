@@ -1,5 +1,5 @@
 <h1>Campaigns App using React</h1>
-<h2><a href="http://assessment.kish.rocks">Demo</a></h2>
+<h2><a href="http://assessment.kish.rocks.s3-website-ap-southeast-1.amazonaws.com">Demo</a></h2>
 <h2>Features</h2>
 <ul>
     <li>This project shows a list of campaigns.</li>
@@ -30,5 +30,4 @@
     <li>Application used redux package. As it is easy to share the global store between components without the need of passing properties to child components.</li>
     <li>Application is tested for unit test cases with jest and enzyme packages.</li>
     <li>AWS S3 Bucket is used to deploy the application. Link is mentioned in the beginning. Since it is a static website, S3 fits the purpose well.</li>
-    <li>Domain management from NameCheap</li>
 </ul>
