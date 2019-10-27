@@ -1,3 +1,5 @@
+//logger utility
+//Currently, it is using console but if update is required for logging, this makes it easier
 const logger = {};
 
 const methods = ['log', 'info', 'warn', 'error'];

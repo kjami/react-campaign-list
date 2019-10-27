@@ -2,6 +2,7 @@ import React from 'react';
 
 import './Header.css';
 
+//header component in the layout
 const header = () => {
     return (
         <div className="Header">

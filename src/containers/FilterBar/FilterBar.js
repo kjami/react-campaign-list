@@ -9,25 +9,32 @@ import { InputDateFormat } from '../../settings';
 import * as actions from '../../store/actions';
 import './FilterBar.css';
 
+//Component that displays the start date, end date and campaign search filters
 class FilterBar extends Component {
 
+    //items that are not required to store in global store
     state = {
         isFiltersDisplayedInSmallScreen: false
     }
 
+    //Update when start date filter is changed
     changeStartDateHandler = (startDate) => {
         this.props.changeStartDate({ startDate });
     }
 
+    //Update when end date filter is changed
     changeEndDateHandler = (endDate) => {
         this.props.changeEndDate({ endDate });
     }
 
+    //Update when campaign name search filter is changed
     changeSearchTermHandler = (ev) => {
         const searchTerm = $(ev.target).val();
         this.props.changeSearchTerm({ searchTerm });
     }
 
+    //Toggle the filters
+    //Feature only available in devices with less width
     toggleFilersHandler = () => {
         this.setState((prevState) => ({
             ...prevState,
@@ -57,6 +64,7 @@ class FilterBar extends Component {
                         Filters:
                     </label>
                     <div id="start-dates" className="col col-12 col-sm-6 col-md-4 field">
+                        {/* Start date filter */}
                         <DatePicker 
                             placeholderText="Start date" 
                             selected={startDate} 
@@ -72,6 +80,7 @@ class FilterBar extends Component {
                                     boundariesElement: "viewport"
                                 }
                             }} />
+                        {/* End date filter */}
                         <DatePicker 
                             placeholderText="End date" 
                             minDate={startDate}
@@ -89,6 +98,7 @@ class FilterBar extends Component {
                                 }
                             }} />
                     </div>
+                    {/* Campaign name search filter */}
                     <div id="search-term" className="col col-12 col-sm-3 col-md-5 field">
                         <div className="display-flex flex-wrapper">
                             <div className="flex-dynamic">
@@ -104,6 +114,7 @@ class FilterBar extends Component {
                             </div>
                         </div>                        
                     </div>
+                    {/* Reset filters */}
                     <div className="col col-12 col-sm-2 col-md-2 field">
                         <button 
                             className="btn btn-info btn-reset" 
@@ -117,6 +128,7 @@ class FilterBar extends Component {
     }
 }
 
+//Get props from the global redux state
 const mapStateToProps = (state) => {
     return {
         startDate: state.filterBarNS.startDate,
@@ -126,6 +138,7 @@ const mapStateToProps = (state) => {
     }
 }
 
+//Get props to dispatch actions to update the global redux store
 const mapDispatchToProps = (dispatch) => {
     return {
         changeStartDate: (payload) => dispatch(actions.changeStartDate(payload)),
@@ -135,4 +148,5 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
+//connect the above two functions to the component to connect to the store
 export default connect(mapStateToProps, mapDispatchToProps)(FilterBar);

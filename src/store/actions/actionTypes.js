@@ -1,3 +1,4 @@
+//Lists all action types available
 //Campaigns related
 export const ADD_CAMPAIGNS = 'ADD_CAMPAIGNS';
 //Filter bar related

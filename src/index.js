@@ -9,16 +9,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import "react-datepicker/dist/react-datepicker.css";
 
+//Separate reducers are used for abstraction
 import campaignReducer from './store/reducers/campaigns';
 import filterBarReducer from './store/reducers/filterBar';
 
+//Combine reducers into one
+//Provide namespaces for each reducer (like campaignsNS)
 const reducer = combineReducers({
     campaignsNS: campaignReducer,
     filterBarNS: filterBarReducer
 });
 
+//Create redux global store
 const store = createStore(reducer);
 
+//Provide the redux global store to the root App element
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

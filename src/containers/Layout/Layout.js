@@ -4,6 +4,7 @@ import FilterBar from '../FilterBar/FilterBar';
 import Campaigns from '../Campaigns/Campaigns';
 import Footer from '../../components/ui/Footer/Footer';
 
+//Component that has the skeleton structure of the website
 class Layout extends Component {
     render() {
         return (

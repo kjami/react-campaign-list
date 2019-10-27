@@ -1,9 +1,6 @@
-import moment from 'moment';
-import $ from 'jquery';
 import { ADD_CAMPAIGNS } from '../actions/actionTypes';
+import { validateCampaign } from '../../utils/campaigns';
 import logger from '../../utils/logger';
-import campaignSchema from '../../schemas/campaign';
-import { InputDateFormat } from '../../settings';
 
 const initialState = {
     startDate: null,
@@ -12,53 +9,12 @@ const initialState = {
     campaigns: []
 }
 
-const validateProperty = (campaign, { name, type, validation = null }) => {
-    const val = campaign[name];
-    let isError = false;
-
-    if (type === 'string' && (!val || typeof val !== 'string')) {
-        isError = true;
-    } else if (type === 'date' && (!val || !moment(val, InputDateFormat).isValid())) {
-        isError = true;
-    } else if (type === 'number' && (typeof val === 'undefined' || val === null || val === false || isNaN(val))) {
-        logger.log(typeof val === 'undefined', val === null, val === false, isNaN(val));
-        isError = true;
-    }
-
-    if (!isError && validation) {
-        return validation(campaign);
-    }
-
-    return isError ? name : '';
-}
-
-const validateCampaign = (c) => {
-    if (!$.isPlainObject(c)) {
-        logger.error('Campaign value is improper. Please provide JSON objects.');
-        return null;
-    }
-
-    let errorMessage = '';
-
-    campaignSchema.forEach((field) => {
-        const result = validateProperty(c, field);
-        errorMessage += `${errorMessage && result ? ', ' : ''}${result}`;
-    });
-
-    if (errorMessage) {
-        const fieldName = c.name ? ` for campaign ${c.name}` : '';
-        logger.error(`Improper field values${fieldName}: ${errorMessage}`);
-        return null;
-    } else {
-        if (!c.id) c.id = Math.round(Math.random() * 100000);
-    }
-
-    return c;
-}
-
+//Method to add campaigns to the global store
 const addCampaigns = (state, { payload: { newCampaigns } } = {}) => {
+    //Check if newCampaings is array and has atleast one element
     if (newCampaigns && Array.isArray(newCampaigns) && newCampaigns.length) {
         const validCampaigns = [];
+        //Validate each new campaign and push in to validCampaigns array
         newCampaigns.forEach((c) => {
             const campaign = validateCampaign(c);
             if (campaign) {
@@ -66,7 +22,9 @@ const addCampaigns = (state, { payload: { newCampaigns } } = {}) => {
             }
         });
 
+        //If validCampaigns are available
         if (validCampaigns.length) {
+            //If validCampaigns are lesser than newCampaigns, warn user that some campaigns are invalid
             if (validCampaigns.length !== newCampaigns.length) logger.warn('Some campaigns are invalid.');
             return {
                 ...state,
@@ -74,6 +32,7 @@ const addCampaigns = (state, { payload: { newCampaigns } } = {}) => {
             }
         }
     }
+    // If no campaigns are available or valid, alert user
     logger.error('Please provide valid campaigns.');
     return state;
 }
