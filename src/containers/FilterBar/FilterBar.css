@@ -1,0 +1,54 @@
+@media screen and (max-width: 576px) {
+    .FilterBar .show-filters:not(.displayed) {
+       display: block;
+    }
+
+    .FilterBar .filters-wrapper:not(.displayed) {
+        display: none;
+    }
+}
+
+.FilterBar {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.FilterBar .col {
+    padding: 0.2em;
+}
+
+.FilterBar .row {
+    text-align: center;
+    margin: 0;
+}
+
+.FilterBar .show-filters {
+    display: none;
+}
+
+.FilterBar .btn-show-filters {
+    padding: 0 1em !important;
+    margin: 0.1em 0;
+}
+
+.FilterBar .field .btn {
+    padding: 0 1em !important;
+    min-height: 1.75em;
+    min-width: 120px;
+    text-align: center;
+    margin: 0.1em 0.2em 0.1em 0;
+}
+
+.FilterBar .field .btn-reset {
+    min-width: 30px;
+}
+
+
+.FilterBar .field input[type='text'] {
+    width: 100%;
+}
+
+.FilterBar .form-control {
+    padding: 0!important;
+    height: 1.75em;
+}

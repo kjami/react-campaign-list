@@ -1,10 +1,12 @@
-.Campaigns {
-    height: 100%;
+@media screen and (max-width: 576px) {
+    .Campaigns .table th,
+    .Campaigns .table td {
+        padding: 0.2rem;
+    }
 }
 
-.Campaigns .table {
-    overflow-y: auto;
-    min-width: 700px;
+.Campaigns {
+    height: 100%;
 }
 
 .Campaigns .status-bubble {
@@ -15,17 +17,22 @@
     border-radius: 50%;
 }
 
-.Campaigns .status-bubble.active {
+.Campaigns .status-bubble.Active {
     background: green;
 }
 
-.Campaigns .status-bubble.inactive {
+.Campaigns .status-bubble.Inactive {
     background: red;
 }
 
 .Campaigns .campaign-status {
     display: inline-block;
     vertical-align: middle;
+}
+
+.Campaigns .table {
+    overflow-y: auto;
+    min-width: 700px;
 }
 
 .Campaigns .table .thead-dark th {
@@ -37,6 +44,10 @@
 .Campaigns .table th,
 .Campaigns .table td {
     vertical-align: top;
+}
+
+.Campaigns .table th {
+    cursor: pointer;
 }
 
 .Campaigns .campaign-active {

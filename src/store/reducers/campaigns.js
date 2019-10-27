@@ -2,6 +2,8 @@ import moment from 'moment';
 import $ from 'jquery';
 import { ADD_CAMPAIGNS } from '../actions/actionTypes';
 import logger from '../../utils/logger';
+import campaignSchema from '../../schemas/campaign';
+import { InputDateFormat } from '../../settings';
 
 const initialState = {
     startDate: null,
@@ -9,26 +11,6 @@ const initialState = {
     searchTerm: null,
     campaigns: []
 }
-
-const InputDateFormat = 'M/D/YYYY';
-
-const campaignSchema = [
-    { name: 'name', type: 'string' },
-    { name: 'startDate', type: 'date' },
-    {
-        name: 'endDate',
-        type: 'date',
-        validation: ({ startDate = 'a', endDate = 'a' }) => {
-            const s = moment(startDate, InputDateFormat);
-            const e = moment(endDate, InputDateFormat);
-            if (!s.isValid() || !e.isValid() || s > e) {
-                return 'endDate > startDate';
-            }
-            return '';
-        }
-    },
-    { name: 'Budget', type: 'number' }
-];
 
 const validateProperty = (campaign, { name, type, validation = null }) => {
     const val = campaign[name];
@@ -92,7 +74,7 @@ const addCampaigns = (state, { payload: { newCampaigns } } = {}) => {
             }
         }
     }
-    logger.warn('Please provide valid campaigns.');
+    logger.error('Please provide valid campaigns.');
     return state;
 }
 

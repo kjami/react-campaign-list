@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../../components/ui/Header/Header';
+import FilterBar from '../FilterBar/FilterBar';
 import Campaigns from '../Campaigns/Campaigns';
 import Footer from '../../components/ui/Footer/Footer';
 
@@ -11,7 +12,7 @@ class Layout extends Component {
                     <Header />
                 </div>
                 <div className="flex-fixed">
-
+                    <FilterBar />
                 </div>
                 <div className="flex-dynamic">
                     <div className="flex-normaliser">

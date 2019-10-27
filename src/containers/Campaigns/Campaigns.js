@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as moment from 'moment';
+import moment from 'moment';
 import * as humanReader from 'human-number';
-
+import campaignSchema from '../../schemas/campaign';
+import { InputDateFormat, OutputDateFormat, DefaultSortBy } from '../../settings';
 import * as actions from '../../store/actions';
 import logger from '../../utils/logger';
 import './Campaigns.css';
 
-const InputDateFormat = 'M/D/YYYY';
-const OutputDateFormat = 'MM/DD/YYYY';
-
 const filterCampaigns = ({ campaigns, startDate: startDateRange, endDate: endDateRange, searchTerm }) => {
-    // console.log(startDateRange, endDateRange, searchTerm);
+    startDateRange = moment(startDateRange, InputDateFormat);
+    endDateRange = moment(endDateRange, InputDateFormat);
     //filter items by the start and end date ranges as well as search term
     campaigns = campaigns.filter(({ name, startDate, endDate }) => {
         let filtered = false;
@@ -43,8 +42,57 @@ const filterCampaigns = ({ campaigns, startDate: startDateRange, endDate: endDat
     return campaigns;
 }
 
+const isCampaignActive = (startDate, endDate) => {
+    const date = moment();
+    const startDateMoment = moment(startDate, InputDateFormat);
+    const endDateMoment = moment(endDate, InputDateFormat);
+    return (date.isBetween(startDateMoment, endDateMoment)) ? 'Active' : 'Inactive';
+}
+
+const sortCampaignsByActive = (campaigns, { sortByAsc }) => {
+    let sortByMultiplier = sortByAsc ? 1 : -1;
+    campaigns = campaigns.sort((a, b) => {
+        let aActive = isCampaignActive(a.startDate, a.endDate);
+        let bActive = isCampaignActive(b.startDate, b.endDate);
+        let condition = aActive > bActive;
+        return sortByMultiplier * (condition ? 1 : -1)
+    });
+    return campaigns;
+}
+
+const sortCampaigns = (campaigns, { sortBy, sortByAsc }) => {
+    if (sortBy === 'active') {
+        return sortCampaignsByActive(campaigns, { sortBy, sortByAsc });
+    }
+    let schemaObj = campaignSchema.find((c) => c.name === sortBy);
+
+    if (!schemaObj) {
+        schemaObj = campaignSchema.find((c) => c.name === DefaultSortBy);
+    }
+
+    if (!schemaObj) {
+        logger.warn('SortBy settings are invalid.');
+        return campaigns;
+    }
+
+    const dataType = schemaObj.type;
+    const field = schemaObj.name;
+    let sortByMultiplier = sortByAsc ? 1 : -1;
+    campaigns = campaigns.sort((aObj, bObj) => {
+        let a = aObj[field];
+        let b = bObj[field];
+        let condition;
+        if (dataType === 'date') {
+            condition = moment(a, InputDateFormat) > moment(b, InputDateFormat);
+        } else {
+            condition = a > b;
+        }
+        return sortByMultiplier * (condition ? 1 : -1)
+    });
+    return campaigns;
+}
+
 const getCampaignElems = (campaigns) => {
-    const dateMoment = moment();
     const campaignElems = [];
     campaigns.forEach(({ id, name, startDate, endDate, Budget: budget }) => {
         const startDateMoment = moment(startDate, InputDateFormat);
@@ -54,14 +102,14 @@ const getCampaignElems = (campaigns) => {
             logger.error(message);
             return;
         }
-        const isActive = dateMoment.isBetween(startDateMoment, endDateMoment);
-        const activeClassName = 'status-bubble ' + (isActive ? 'active' : 'inactive');
+        const isActive = isCampaignActive(startDate, endDate);
+        const activeClassName = 'status-bubble ' + (isActive);
         campaignElems.push((
             <tr className="campaign" key={id}>
                 <td className="campaign-name">{name}</td>
                 <td className="campaign-start-date">{startDateMoment.format(OutputDateFormat)}</td>
                 <td className="campaign-end-date">{endDateMoment.format(OutputDateFormat)}</td>
-                <td className="campaign-active"><div className={activeClassName}></div>&nbsp;&nbsp;<div className="campaign-status">{isActive ? 'Active' : 'Inactive'}</div></td>
+                <td className="campaign-active"><div className={activeClassName}></div>&nbsp;&nbsp;<div className="campaign-status">{isActive}</div></td>
                 <td className="campaign-budget">{humanReader(budget, (n) => Math.round(n * 10) / 10)}</td>
                 {/* <td className="campaign-budget">{humanReader(budget, (n) => Number.parseFloat(n).toFixed(1))}</td> */}
             </tr>
@@ -71,8 +119,22 @@ const getCampaignElems = (campaigns) => {
 }
 
 class Campaigns extends Component {
+
+    changeSortByHandler = (sortBy) => {
+        this.props.changeSortBy({ sortBy });
+    }
+
+    getSortClassName = (actualSortBy) => {
+        let { sortBy, sortByAsc } = this.props;
+        if (sortBy === actualSortBy) {
+            return `fa ${sortByAsc ? 'fa-sort-asc' : 'fa-sort-desc'}`;
+        }
+        return 'fa';
+    }
+
     render() {
-        const campaigns = filterCampaigns(this.props);
+        let campaigns = filterCampaigns(this.props);
+        campaigns = sortCampaigns(campaigns, this.props);
         const campaignElems = getCampaignElems(campaigns);
 
         return (
@@ -80,11 +142,27 @@ class Campaigns extends Component {
                 <table className="table table-borderless table-striped">
                     <thead className="thead-dark">
                         <tr>
-                            <th>Name</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Active</th>
-                            <th>Budget (USD)</th>
+                            <th onClick={() => this.changeSortByHandler('name')}>
+                                Name <i className={this.getSortClassName('name')}></i>
+                            </th>
+                            <th onClick={() => this.changeSortByHandler('startDate')}>
+                                Start Date <i className={this.getSortClassName('startDate')}></i>
+                                <br /> 
+                                <small>({OutputDateFormat.toLowerCase()})</small>
+                            </th>
+                            <th onClick={() => this.changeSortByHandler('endDate')}>
+                                End Date <i className={this.getSortClassName('endDate')}></i>
+                                <br /> 
+                                <small>({OutputDateFormat.toLowerCase()})</small>
+                            </th>
+                            <th onClick={() => this.changeSortByHandler('active')}>
+                                Active <i className={this.getSortClassName('active')}></i>
+                            </th>
+                            <th onClick={() => this.changeSortByHandler('Budget')}>
+                                Budget <i className={this.getSortClassName('Budget')}></i>
+                                <br /> 
+                                <small>(USD)</small>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,16 +176,19 @@ class Campaigns extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        startDate: state.campaignsNS.startDate,
-        endDate: state.campaignsNS.endDate,
-        searchTerm: state.campaignsNS.searchTerm,
+        startDate: state.filterBarNS.startDate,
+        endDate: state.filterBarNS.endDate,
+        searchTerm: state.filterBarNS.searchTerm,
+        sortBy: state.filterBarNS.sortBy,
+        sortByAsc: state.filterBarNS.sortByAsc,
         campaigns: state.campaignsNS.campaigns,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addCampaigns: (payload) => dispatch(actions.addCampaigns(payload))
+        addCampaigns: (payload) => dispatch(actions.addCampaigns(payload)),
+        changeSortBy: (payload) => dispatch(actions.changeSortBy(payload))
     }
 }
 

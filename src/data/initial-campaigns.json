@@ -17,7 +17,7 @@
         "id": 3,
         "name": "Campaign 3",
         "startDate": "11/1/2017",
-        "endDate": "6/20/2018",
+        "endDate": "6/20/2020",
         "Budget": 239507
     },
     {
@@ -31,7 +31,7 @@
         "id": 5,
         "name": "Campaign 5",
         "startDate": "11/28/2017",
-        "endDate": "3/10/2018",
+        "endDate": "3/10/2020",
         "Budget": 837850
     },
     {
@@ -52,7 +52,7 @@
         "id": 8,
         "name": "Campaign 8",
         "startDate": "10/13/2017",
-        "endDate": "1/25/2018",
+        "endDate": "1/25/2020",
         "Budget": 272552
     },
     {

@@ -6,7 +6,7 @@ import './Footer.css';
 const footer = () => {
     return (
         <div className="Footer">
-            Copyright © {moment().year()} Kishor
+            Copyright © {moment().year()}
         </div>
     );
 }
