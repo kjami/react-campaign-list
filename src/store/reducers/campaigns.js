@@ -3,9 +3,6 @@ import { validateCampaign } from '../../utils/campaigns';
 import logger from '../../utils/logger';
 
 const initialState = {
-    startDate: null,
-    endDate: null,
-    searchTerm: null,
     campaigns: []
 }
 
