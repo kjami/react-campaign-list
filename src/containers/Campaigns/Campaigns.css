@@ -37,8 +37,8 @@
 
 .Campaigns .table .thead-dark th {
     color: #fff;
-    background-color: #0011a9;
-    border-color: #0011a9;
+    background-color: #2e3dc5;
+    border-color: #2e3dc5;
 }
 
 .Campaigns .table th,
@@ -60,6 +60,6 @@
 }
 
 .Campaigns .campaign:hover {
-    background: #0011a9;
+    background: #2e3dc5;
     color: white !important;
 }
