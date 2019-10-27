@@ -1,0 +1,44 @@
+.Campaigns {
+    height: 100%;
+}
+
+.Campaigns .table {
+    overflow-y: auto;
+    min-width: 700px;
+}
+
+.Campaigns .status-bubble {
+    display: inline-block;
+    vertical-align: middle;
+    width: 0.75em;
+    height: 0.75em;
+    border-radius: 50%;
+}
+
+.Campaigns .status-bubble.active {
+    background: green;
+}
+
+.Campaigns .status-bubble.inactive {
+    background: red;
+}
+
+.Campaigns .campaign-status {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Campaigns .table .thead-dark th {
+    color: #fff;
+    background-color: #0011a9;
+    border-color: #0011a9;
+}
+
+.Campaigns .table th,
+.Campaigns .table td {
+    vertical-align: top;
+}
+
+.Campaigns .campaign-active {
+    min-width: 100px;
+}

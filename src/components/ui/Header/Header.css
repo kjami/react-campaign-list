@@ -1,0 +1,11 @@
+.Header {
+    background: #0011a9;
+}
+
+.Header .header-company-title {
+    padding: 0.5em;
+    font-family: Lobster;
+    font-size: 1.2em;
+    color: #ccc;
+    background: #0015d4;
+}
