@@ -1,5 +1,7 @@
 <h1>Campaigns App using React</h1>
-<h2><a href="http://assessment.kish.rocks.s3-website-ap-southeast-1.amazonaws.com">Demo</a></h2>
+<h2>Demo</h2>
+<a href="http://assessment.kish.rocks">Link 1<a><br>
+<a href="http://assessment.kish.rocks.s3-website-ap-southeast-1.amazonaws.com">Link 2 (If Link 1 doesn't work)</a>
 <h2>Features</h2>
 <ul>
     <li>This project shows a list of campaigns.</li>
