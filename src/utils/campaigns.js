@@ -5,7 +5,7 @@ import campaignSchema from '../schemas/campaign';
 import { InputDateFormat, DefaultSortBy } from '../settings';
 
 //Filter the given campaigns by the startDate, endDate and searchTerm filters
-export const filterCampaigns = ({ campaigns, startDate: startDateRange, endDate: endDateRange, searchTerm }) => {
+export const filterCampaigns = ({ campaigns = [], startDate: startDateRange, endDate: endDateRange, searchTerm }) => {
     startDateRange = moment(startDateRange, InputDateFormat);
     endDateRange = moment(endDateRange, InputDateFormat);
     //filter items by the start and end date ranges as well as search term
