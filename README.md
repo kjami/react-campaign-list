@@ -17,6 +17,7 @@
     <li>User can filter the campaigns data by selecting a range for the start and end dates using the date picker.</li>
     <li>Similarly, user can also filter by the campaign name using the search bar</li>
     <li>If campaign is currently active, green indicator is displayed. If not, red is displayed.</li>
+    <li>User can sort the campaigns by clicking on the headers.</li>
 </ul>
 
 <h2>High Level Overview</h2>
@@ -27,7 +28,7 @@
     <li>Main components in the application are Campaigns and FilterBar.</li>
     <li>Campaigns lists all valid campaigns.</li>
     <li>FilterBar lists all filters to filter the campaigns.</li>
-    <li>Application used redux package. As it is easy to share the global store between components without the need of passing properties to child components.</li>
+    <li>Application used redux package as it is easy to share the global store between components without the need of passing properties to child components.</li>
     <li>Application is tested for unit test cases with jest and enzyme packages.</li>
     <li>AWS S3 Bucket is used to deploy the application. Link is mentioned in the beginning. Since it is a static website, S3 fits the purpose well.</li>
 </ul>
