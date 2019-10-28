@@ -57,8 +57,17 @@ export class Campaigns extends Component {
 
     render() {
         let campaigns = filterCampaigns(this.props);
-        campaigns = sortCampaigns(campaigns, this.props);
-        const campaignElems = getCampaignElems(campaigns);
+        let campaignElems = null;
+        if (!campaigns || !campaigns.length) {
+            campaignElems = (
+                <tr>
+                    <td colspan="5" className="text-align-center">No Campaigns</td>
+                </tr>
+            );
+        } else {
+            campaigns = sortCampaigns(campaigns, this.props);
+            campaignElems = getCampaignElems(campaigns);
+        }
 
         return (
             <div className="Campaigns table-responsive">
