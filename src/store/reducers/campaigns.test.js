@@ -4,9 +4,6 @@ import * as actionTypes from '../actions/actionTypes';
 describe('campaigns reducer tests', () => {
     it('check initial state', () => {
         expect(reducer(undefined, {})).toEqual({
-            startDate: null,
-            endDate: null,
-            searchTerm: null,
             campaigns: []
         });
     });
