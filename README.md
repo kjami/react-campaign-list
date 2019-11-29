@@ -1,4 +1,7 @@
 <h1>Campaigns App using React</h1>
+
+![Build Status](https://travis-ci.com/kjami/react-campaign-list.svg?branch=master)
+
 <h2>Demo</h2>
 <a href="http://assessment.kish.rocks">Link 1<a><br>
 <a href="http://assessment.kish.rocks.s3-website-ap-southeast-1.amazonaws.com">Link 2 (If Link 1 doesn't work)</a>
