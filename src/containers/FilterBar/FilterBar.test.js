@@ -3,7 +3,8 @@ import React from 'react';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import { FilterBar } from './FilterBar';
+import sinon from 'sinon';
+import { FilterBar, mapStateToProps, mapDispatchToProps } from './FilterBar';
 
 import DatePicker from "react-datepicker";
 
@@ -29,6 +30,45 @@ describe('Layout Component', () => {
         });
         const value = wrapper.find('#search-term input').props().value;
         expect(value).toEqual(givenValue);
+    });
+
+    it('mapStateToProps test', () => {
+        const res = mapStateToProps({
+            filterBarNS: {
+                startDate: 'startDate',
+                endDate: 'endDate',
+                searchTerm: 'searchTerm',
+                sortBy: 'sortBy'
+            }
+        });
+
+        expect(res.startDate).toBeTruthy();
+        expect(res.endDate).toBeTruthy();
+        expect(res.searchTerm).toBeTruthy();
+        expect(res.sortBy).toBeTruthy();
+    });
+
+    it('mapDispatchToProps test', () => {
+        const obj = { fn: () => { } };
+        const stub = sinon.stub(obj, 'fn');
+        const res = mapDispatchToProps(obj.fn);
+
+        expect(res.changeStartDate).toBeTruthy();
+        expect(res.changeEndDate).toBeTruthy();
+        expect(res.changeSearchTerm).toBeTruthy();
+        expect(res.resetFilters).toBeTruthy();
+        res.changeStartDate();
+        expect(stub.calledOnce).toBe(true);
+        stub.reset();
+        res.changeEndDate();
+        expect(stub.calledOnce).toBe(true);
+        stub.reset();
+        res.changeSearchTerm();
+        expect(stub.calledOnce).toBe(true);
+        stub.reset();
+        res.resetFilters();
+        expect(stub.calledOnce).toBe(true);
+        stub.reset();
     });
 });
 

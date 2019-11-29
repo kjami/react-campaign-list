@@ -69,7 +69,7 @@ export class FilterBar extends Component {
                             placeholderText="Start date" 
                             selected={startDate} 
                             onChange={this.changeStartDateHandler} 
-                            customInput={<DatePickerCustomInput />}
+                            customInput={<DatePickerCustomInput className='start-date'/>}
                             peekNextMonth
                             showMonthDropdown
                             showYearDropdown
@@ -81,12 +81,12 @@ export class FilterBar extends Component {
                                 }
                             }} />
                         {/* End date filter */}
-                        <DatePicker 
+                        <DatePicker
                             placeholderText="End date" 
                             minDate={startDate}
                             selected={endDate} 
                             onChange={this.changeEndDateHandler} 
-                            customInput={<DatePickerCustomInput />}
+                            customInput={<DatePickerCustomInput className='end-date' />}
                             peekNextMonth
                             showMonthDropdown
                             showYearDropdown
@@ -129,7 +129,7 @@ export class FilterBar extends Component {
 }
 
 //Get props from the global redux state
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
     return {
         startDate: state.filterBarNS.startDate,
         endDate: state.filterBarNS.endDate,
@@ -139,7 +139,7 @@ const mapStateToProps = (state) => {
 }
 
 //Get props to dispatch actions to update the global redux store
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
     return {
         changeStartDate: (payload) => dispatch(actions.changeStartDate(payload)),
         changeEndDate: (payload) => dispatch(actions.changeEndDate(payload)),

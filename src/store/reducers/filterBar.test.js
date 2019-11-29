@@ -47,6 +47,22 @@ describe('filter bar reducer tests', () => {
         expect(result.startDate).toBeFalsy();
     });
 
+    it('check change start date success - remove end date', () => {
+        const result = reducer({
+            startDate: '11/01/2017',
+            endDate: '12/21/2017',
+            searchTerm: null,
+            sortBy: DefaultSortBy,
+            sortByAsc: DefaultSortByAsc
+        }, {
+            type: actionTypes.CHANGE_END_DATE,
+            payload: {
+                endDate: '10/02/2017'
+            }
+        });
+        expect(result.endDate).toBeFalsy();
+    });
+
     it('check change end date success', () => {
         const result = reducer({
             startDate: null,
@@ -147,5 +163,49 @@ describe('filter bar reducer tests', () => {
             sortBy: DefaultSortBy,
             sortByAsc: DefaultSortByAsc
         });
+    });
+
+    it('check change sort by success - no payload', () => {
+        const result = reducer({
+            startDate: null,
+            endDate: null,
+            searchTerm: null,
+            sortBy: DefaultSortBy,
+            sortByAsc: DefaultSortByAsc
+        }, {
+            type: actionTypes.CHANGE_SORT_BY
+        });
+        expect(result.sortBy).toBeFalsy();
+    });
+
+    it('check change sort by success - payload empty', () => {
+        const result = reducer({
+            startDate: null,
+            endDate: null,
+            searchTerm: null,
+            sortBy: DefaultSortBy,
+            sortByAsc: DefaultSortByAsc
+        }, {
+            type: actionTypes.CHANGE_SORT_BY,
+            payload: {
+            }
+        });
+        expect(result.sortBy).toBeFalsy();
+    });
+
+    it('check change sort by success - payload null', () => {
+        const result = reducer({
+            startDate: null,
+            endDate: null,
+            searchTerm: null,
+            sortBy: null,
+            sortByAsc: !DefaultSortByAsc
+        }, {
+            type: actionTypes.CHANGE_SORT_BY,
+            payload: {
+                sortBy: null
+            }
+        });
+        expect(result.sortBy).toBeFalsy();
     });
 });

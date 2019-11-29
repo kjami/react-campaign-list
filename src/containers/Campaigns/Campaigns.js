@@ -9,7 +9,7 @@ import logger from '../../utils/logger';
 import './Campaigns.css';
 
 //Iterate through the campaign jSON objects and generate an array of campaign JSX elements
-const getCampaignElems = (campaigns) => {
+export const getCampaignElems = (campaigns) => {
     const campaignElems = [];
     
     //Iterate over campaigns
@@ -61,7 +61,7 @@ export class Campaigns extends Component {
         if (!campaigns || !campaigns.length) {
             campaignElems = (
                 <tr>
-                    <td colspan="5" className="text-align-center">No Campaigns</td>
+                    <td colSpan="5" className="text-align-center">No Campaigns</td>
                 </tr>
             );
         } else {
@@ -76,23 +76,23 @@ export class Campaigns extends Component {
                     {/*Table header*/}
                     <thead className="thead-dark">
                         <tr>
-                            <th onClick={() => this.changeSortByHandler('name')}>
+                            <th className='td-head-name' onClick={() => this.changeSortByHandler('name')}>
                                 Name <i className={this.getSortClassName('name')}></i>
                             </th>
-                            <th onClick={() => this.changeSortByHandler('startDate')}>
+                            <th className='td-head-start-date' onClick={() => this.changeSortByHandler('startDate')}>
                                 Start Date <i className={this.getSortClassName('startDate')}></i>
                                 <br /> 
                                 <small>({OutputDateFormat.toLowerCase()})</small>
                             </th>
-                            <th onClick={() => this.changeSortByHandler('endDate')}>
+                            <th className='td-head-end-date' onClick={() => this.changeSortByHandler('endDate')}>
                                 End Date <i className={this.getSortClassName('endDate')}></i>
                                 <br /> 
                                 <small>({OutputDateFormat.toLowerCase()})</small>
                             </th>
-                            <th onClick={() => this.changeSortByHandler('active')}>
+                            <th className='td-head-active' onClick={() => this.changeSortByHandler('active')}>
                                 Active <i className={this.getSortClassName('active')}></i>
                             </th>
-                            <th onClick={() => this.changeSortByHandler('Budget')}>
+                            <th className='td-head-budget' onClick={() => this.changeSortByHandler('Budget')}>
                                 Budget <i className={this.getSortClassName('Budget')}></i>
                                 <br /> 
                                 <small>(USD)</small>
@@ -110,19 +110,19 @@ export class Campaigns extends Component {
 }
 
 //Get props from the global redux state
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
     return {
         startDate: state.filterBarNS.startDate,
         endDate: state.filterBarNS.endDate,
         searchTerm: state.filterBarNS.searchTerm,
         sortBy: state.filterBarNS.sortBy,
         sortByAsc: state.filterBarNS.sortByAsc,
-        campaigns: state.campaignsNS.campaigns,
+        campaigns: state.campaignsNS.campaigns
     }
 }
 
 //Get props to dispatch actions to update the global redux store
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
     return {
         addCampaigns: (payload) => dispatch(actions.addCampaigns(payload)),
         changeSortBy: (payload) => dispatch(actions.changeSortBy(payload))

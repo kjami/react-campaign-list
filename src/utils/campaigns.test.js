@@ -1,6 +1,9 @@
 import moment from 'moment';
 import { InputDateFormat } from '../settings';
 import { filterCampaigns, isCampaignActive, sortCampaigns, validateCampaign } from './campaigns';
+import campaignSchema from '../schemas/campaign';
+import sinon from 'sinon';
+import logger from './logger';
 
 describe('Campaign utilities', () => {
     let campaigns = null;
@@ -61,6 +64,11 @@ describe('Campaign utilities', () => {
         expect(newCampaigns).toHaveLength(0);
     });
 
+    it('filterCampaigns to return zero elements when no campaigns are passed.', () => {
+        const newCampaigns = filterCampaigns({});
+        expect(newCampaigns).toHaveLength(0);
+    });
+
     it('isCampaignActive to return Active when date is in between start and end dates', () => {
         const startDate = moment().subtract(1, 'days').format(InputDateFormat);
         const endDate = moment().add(1, 'days').format(InputDateFormat);
@@ -113,9 +121,38 @@ describe('Campaign utilities', () => {
         const sorted = sortCampaigns(campaigns, { sortBy: 'Budget', sortByAsc: false });
         const length = sorted.length - 1;
         const firstBudget = sorted && sorted[0] && sorted[0].Budget;
-        const lastBudget= sorted && sorted[length] && sorted[length].Budget;
+        const lastBudget = sorted && sorted[length] && sorted[length].Budget;
         expect(firstBudget).toEqual(10000000);
         expect(lastBudget).toEqual(10);
+    });
+
+    it('sortCampaigns to return sorted Active in ascending order', () => {
+        const sorted = sortCampaigns(campaigns, { sortBy: 'active', sortByAsc: true });
+        const item = sorted && sorted[0] && sorted[0].id;
+        expect(item).toEqual(3);
+    });
+
+    it('sortCampaigns to return sorted Active in desc order', () => {
+        const sorted = sortCampaigns(campaigns, { sortBy: 'active', sortByAsc: false });
+        const item = sorted && sorted[0] && sorted[0].id;
+        expect(item).toEqual(10);
+    });
+
+    it('sortCampaigns to return least start date element first when sort by is invalid.', () => {
+        const sorted = sortCampaigns(campaigns, { sortBy: 'asfasfewt', sortByAsc: true });
+        const length = sorted.length - 1;
+        const firstStartDate = sorted && sorted[0] && sorted[0].startDate;
+        const lastStartDate = sorted && sorted[length] && sorted[length].startDate;
+        expect(firstStartDate).toEqual('6/27/2017');
+        expect(lastStartDate).toEqual('3/5/2018');
+    });
+
+    it('sortCampaigns to warn when campaignSchema.find returns null.', () => {
+        jest.spyOn(campaignSchema, 'find')
+            .mockImplementation(() => null);
+        const stub = sinon.stub(logger, 'warn');
+        sortCampaigns(campaigns, { sortBy: 'name', sortByAsc: true });
+        expect(stub.calledOnce).toBe(true);
     });
 
     it('validateCampaign to return true', () => {
@@ -127,6 +164,49 @@ describe('Campaign utilities', () => {
         console.error = () => {};
         const isValid = validateCampaign('1234');
         expect(isValid).toBeFalsy();
+    });
+
+    it('validateCampaign to return false when name is not string', () => {
+        console.error = () => { };
+        const c = { ...campaigns[0] };
+        c.name = 123;
+        const isValid = validateCampaign(c);
+        expect(isValid).toBeFalsy();
+    });
+
+    it('validateCampaign to return false when name is null', () => {
+        console.error = () => { };
+        const c = { ...campaigns[0] };
+        c.name = null;
+        const isValid = validateCampaign(c);
+        expect(isValid).toBeFalsy();
+    });
+
+    it('validateCampaign to return false when start date and end date are null', () => {
+        console.error = () => { };
+        const c = { ...campaigns[0] };
+        c.startDate = null;
+        c.endDate = null;
+        const stub = sinon.stub(logger, 'error');
+        const isValid = validateCampaign(c);
+        expect(isValid).toBeFalsy();
+        expect(stub.calledOnce).toBe(true);
+    });
+
+    it('validateCampaign to return false when budget is null', () => {
+        console.error = () => { };
+        const c = { ...campaigns[0] };
+        c.Budget = null;
+        const isValid = validateCampaign(c);
+        expect(isValid).toBeFalsy();
+    });
+
+    it('validateCampaign to return false when budget is null', () => {
+        console.error = () => { };
+        const c = { ...campaigns[0] };
+        c.id = null;
+        const newCampaign = validateCampaign(c);
+        expect(newCampaign.id).toBeTruthy();
     });
 
     it('validateCampaign to return false when parameter is not object', () => {

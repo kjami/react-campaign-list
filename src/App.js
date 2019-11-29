@@ -8,7 +8,7 @@ import initialCampaigns from './data/initial-campaigns.json';
 
 //The App component. It just renders the layout
 //It also adds the AddCampaigns method on component mounting
-class App extends Component {
+export class App extends Component {
 
     componentDidMount() {
         //On mounting, initialise the campaigns
@@ -30,7 +30,7 @@ class App extends Component {
 };
 
 //Get props to dispatch actions to update the global redux store
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
     return {
         addCampaigns: (payload) => dispatch(actions.addCampaigns(payload))
     }
